@@ -1,66 +1,54 @@
-# Coin-Theory(My first latex writeup ;D)
+# Coin-Theory(My first writeup ;D)
 # Initial Assumption
 
-- Let the initial state be \( x \in \{0 \text{ (heads)}, 1 \text{ (tails)}\} \).
-- Each flip adds a number \( a_j \in \{1, \ldots, 8\} \) chosen uniformly at random.
-- The state after \( i \) flips is:
-  
-  \[
-  S_i = \bigg(x + \sum_{j=1}^i a_j\bigg) \bmod 2
-  \]
+- Let the initial state be `x` in `{0 (heads), 1 (tails)}`.
+- Each flip adds a number `a_j` in `{1, ..., 8}` chosen uniformly at random.
+- The state after `i` flips is:
 
-- The coin face is heads if \( S_i = 0 \), tails if \( S_i = 1 \).
+    S_i = ( x + Σ_{j=1}^i a_j ) mod 2
+
+- The coin face is heads if `S_i = 0`, tails if `S_i = 1`.
 
 ---
 
 # Assumption Reasoning
 
-- Since parity determines the face, starting at \( x = 0 \) (heads),  
-  the count of heads in \( n \) flips is:
+- Since parity determines the face, starting at `x = 0` (heads),  
+  the count of heads in `n` flips is:
 
-  \[
-  \sum_{i=1}^n \mathbf{1}_{\{S_i=0\}} = \sum_{i=1}^n \mathbf{1}_{\{(x + \sum_{j=1}^i a_j) \bmod 2 = 0\}}
-  \]
+    Σ_{i=1}^n 1{ S_i = 0 } = Σ_{i=1}^n 1{ ( x + Σ_{j=1}^i a_j ) mod 2 = 0 }
 
 - The assumption was that because the sequence of sums produces more even than odd values,  
-  the starting face \( x \) will always be at least as frequent as the opposite face.
+  the starting face `x` will always be at least as frequent as the opposite face.
+
 - More formally, it was thought:
 
-  \[
-  \#\text{heads} \geq \#\text{tails}
-  \]
+    #heads ≥ #tails
 
-  or
+or
 
-  \[
-  \#\text{heads} = \lceil \tfrac{n}{2} \rceil, \quad \#\text{tails} = \lfloor \tfrac{n}{2} \rfloor \quad \text{(if } x = 0 \text{)}
-  \]
+    #heads = ⎡n/2⎤,   #tails = ⎣n/2⎦   (if x = 0)
 
 ---
 
 # Why This is Incorrect
 
-- The increments \( a_j \) are uniform from 1 to 8, half even and half odd.
-- Define parity function \( p(a_j) = a_j \bmod 2 \).
+- The increments `a_j` are uniform from 1 to 8, half even and half odd.
+- Define parity function `p(a_j) = a_j mod 2`.
 - Then:
 
-  \[
-  S_i = \left(x + \sum_{j=1}^i p(a_j)\right) \bmod 2
-  \]
+    S_i = ( x + Σ_{j=1}^i p(a_j) ) mod 2
 
-- Since \( p(a_j) \) are independent and equally likely 0 or 1,  
-  the sum \( \sum p(a_j) \bmod 2 \) behaves like a fair coin toss.
+- Since the values `p(a_j)` are independent and equally likely 0 or 1,  
+  the sum Σ p(a_j) mod 2 behaves like a fair coin toss.
+
 - Therefore:
 
-  \[
-  P(S_i = 0) = P\left(\sum p(a_j) \bmod 2 = x \right) = \frac{1}{2}
-  \]
+    P(S_i = 0) = P( (Σ p(a_j)) mod 2 = x ) = 0.5
 
-- The expected number of heads in \( n \) flips is:
+- The expected number of heads in `n` flips is:
 
-  \[
-  \mathbb{E}[\#\text{heads}] = \sum_{i=1}^n P(S_i=0) = \frac{n}{2}
-  \]
+    E[#heads] = Σ_{i=1}^n P(S_i = 0) = n/2
 
 - So the starting face does **not** bias the outcome,  
   and over many trials heads and tails occur equally often on average.
